@@ -35,31 +35,31 @@ The public deployment uses HTTPS and opens without a login. On September 2, 2026
 
 ## How it works
 
-These are real captures from the public version. The scan uses FixFirst's own domain as an authorized target, so the result may change as the deployment evolves. The interface shown below is in PT-BR; English and Spanish are available from the language selector.
+These are real captures of the English interface from the public version. The scan uses FixFirst's own domain as an authorized target, so the result may change as the deployment evolves.
 
 ### 1. Enter the website
 
 Enter a public address that you are authorized to assess. FixFirst runs a passive check without login or changes to the website.
 
-![FixFirst start screen with the website address field](docs/images/fixfirst-home.jpg)
+![FixFirst start screen with the website address field](docs/images/fixfirst-home-en.jpg)
 
 ### 2. Review the overview
 
 The summary shows the indicator limited to supported checks and the number of items that deserve review.
 
-![Summary of an authorized scan of FixFirst itself](docs/images/fixfirst-result.jpg)
+![Summary of an authorized scan of FixFirst itself](docs/images/fixfirst-result-en.jpg)
 
 ### 3. Understand the priority
 
 The simple analysis translates the first item into impact, context, and a suggested owner.
 
-![Plain-language explanation of the item prioritized by FixFirst](docs/images/fixfirst-priority.jpg)
+![Plain-language explanation of the item prioritized by FixFirst](docs/images/fixfirst-priority-en.jpg)
 
 ### 4. Inspect the technical evidence
 
 The expanded view shows status, confidence, evidence, CWE and CVSS, detected technology, and the priority composition.
 
-![Technical evidence for the item prioritized by FixFirst](docs/images/fixfirst-technical.jpg)
+![Technical evidence for the item prioritized by FixFirst](docs/images/fixfirst-technical-en.jpg)
 
 ## Current capabilities
 
