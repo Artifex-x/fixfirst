@@ -35,7 +35,19 @@ O deployment público utiliza HTTPS e abre sem login. Em 2 de setembro de 2026, 
 
 ## Screenshots
 
-O repositório ainda não apresenta screenshots. A interface real pode ser testada pela Live Demo, sem substituir o produto por imagens provisórias.
+Capturas reais da versão pública. A análise mostrada usa o próprio domínio do FixFirst como alvo autorizado, portanto o resultado pode mudar conforme o deployment evolui.
+
+### Tela inicial
+
+![Tela inicial do FixFirst com o campo para informar o endereço do site](docs/images/fixfirst-home.jpg)
+
+### Resumo da análise
+
+![Resumo de uma análise autorizada do próprio FixFirst](docs/images/fixfirst-result.jpg)
+
+### Prioridade de correção
+
+![Explicação do ponto priorizado pelo FixFirst](docs/images/fixfirst-priority.jpg)
 
 ## Funcionalidades atuais
 
@@ -125,7 +137,7 @@ O fluxo do produto está instrumentado com eventos explícitos do PostHog e list
 
 ## Roadmap
 
-O repositório público, o deployment sem login na Vercel e o dashboard privado do PostHog estão ativos. Os próximos passos são observar o uso real, avaliar um limite distribuído que não introduza cobrança sem aprovação, validar mais ciclos de Retest e capturar screenshots da versão pública. Rastreamento de várias páginas e novos findings permanecem fora do escopo até que os checks atuais tenham validação suficiente.
+O repositório público, o deployment sem login na Vercel e o dashboard privado do PostHog estão ativos. Os próximos passos são observar o uso real, avaliar um limite distribuído que não introduza cobrança sem aprovação e validar mais ciclos de Retest. Rastreamento de várias páginas e novos findings permanecem fora do escopo até que os checks atuais tenham validação suficiente.
 
 ## O que aprendi
 
