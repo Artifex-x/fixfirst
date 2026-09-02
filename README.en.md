@@ -35,7 +35,19 @@ The public deployment uses HTTPS and opens without a login. On September 2, 2026
 
 ## Screenshots
 
-The repository does not include screenshots yet. The real interface is available through the Live Demo instead of being represented by placeholder images.
+These are real captures from the public version. The displayed scan uses FixFirst's own domain as an authorized target, so the result may change as the deployment evolves. The screenshots use the default PT-BR interface; English and Spanish are available from the language selector.
+
+### Start screen
+
+![FixFirst start screen with the website address field](docs/images/fixfirst-home.jpg)
+
+### Scan summary
+
+![Summary of an authorized scan of FixFirst itself](docs/images/fixfirst-result.jpg)
+
+### Remediation priority
+
+![Explanation of the finding prioritized by FixFirst](docs/images/fixfirst-priority.jpg)
 
 ## Current capabilities
 
@@ -125,7 +137,7 @@ The product flow is instrumented with explicit, allowlisted PostHog events. Prod
 
 ## Roadmap
 
-The public repository, unauthenticated Vercel deployment, and private PostHog dashboard are active. Next steps are observing real usage, evaluating a distributed limit that introduces no charge without approval, validating more Retest cycles, and capturing screenshots of the public version. Broader crawling and additional findings remain out of scope until the current checks have enough validation.
+The public repository, unauthenticated Vercel deployment, and private PostHog dashboard are active. Next steps are observing real usage, evaluating a distributed limit that introduces no charge without approval, and validating more Retest cycles. Broader crawling and additional findings remain out of scope until the current checks have enough validation.
 
 ## What I learned
 
