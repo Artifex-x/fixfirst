@@ -1,6 +1,6 @@
 # FixFirst analytics
 
-Status: instrumentation implemented, account activation and production validation pending
+Status: production active and initial validation complete
 
 Last reviewed: September 2, 2026
 
@@ -37,7 +37,7 @@ The integration uses two server environment variables:
 
 The code accepts only `https://us.i.posthog.com` and `https://eu.i.posthog.com`. Real values do not belong in GitHub, README files, or logs.
 
-Without a valid configuration, the route returns without sending data to an external service. This is the behavior of the current private preview.
+Without a valid configuration, the route returns without sending data to an external service. Vercel production has valid configuration, while the private preview continues without external delivery.
 
 ## Anonymous identity and sessions
 
@@ -94,20 +94,16 @@ The error branch uses `scan_failed`. It must not count as a successful completio
 
 ## Private dashboard
 
-After the account is connected through official OAuth and the correct project is confirmed, the private dashboard should include:
+The private dashboard was created in the confirmed PostHog project and contains six validated insights:
 
-1. Visits and unique visitors by day.
-2. Sessions and returning visitors.
-3. Meaningful use measured by `scan_started`.
-4. Started, completed, and failed scans.
-5. Scan completion rate.
-6. Viewed results, priorities, guides, and Playbooks.
-7. Generated developer messages and reports.
-8. Started and completed Retests plus confirmed fixes.
-9. The main funnel with drop off by step.
-10. Locale and device category distribution.
+1. Visits over the last 30 days.
+2. Started, completed, and failed scans.
+3. Plain guide and technical Playbook openings.
+4. Started and completed Retests plus confirmed fixes.
+5. The scan start to completion funnel with step drop off.
+6. The journey from visit through completed scan, Playbook, Retest, and confirmed fix.
 
-The dashboard is never rendered inside FixFirst and must not be shared through the README. Administrative access remains limited to the PostHog project owner account.
+The dashboard is never rendered inside FixFirst, has no public sharing, and uses restricted access. Administrative access remains with the PostHog project owner account.
 
 ## Data deliberately excluded
 
@@ -133,7 +129,7 @@ The browser request uses `credentials: omit` and `referrerPolicy: no-referrer`. 
 6. The ingestion host uses an allowlist to prevent arbitrary destinations.
 7. FixFirst does not send the project token to the browser.
 
-The PostHog project must also enable **Discard client IP data** under **Settings**, **Project**, **IP data capture configuration**. The [data storage documentation](https://posthog.com/docs/privacy/data-storage) describes this control. The integration forwards only the server egress IP, never the visitor IP, but the discard setting must still remain enabled.
+The PostHog project has **Discard client IP data** enabled under **Settings**, **Project**, **IP data capture configuration**. The [data storage documentation](https://posthog.com/docs/privacy/data-storage) describes this control. The integration forwards only the server egress IP, never the visitor IP, and the discard setting must remain enabled.
 
 ## Derived metrics
 
@@ -149,13 +145,13 @@ Any future public metric must use real data, state its date range, and explain r
 4. Content blockers and network failures can prevent event delivery.
 5. The route limit is local to one instance and does not replace distributed platform controls.
 6. Device classification is broad and does not identify a model or operating system.
-7. Retention and deletion settings must be confirmed in the owner account before public activation.
+7. Retention and deletion remain administrative controls of the owner account and require periodic review.
 
 ## Validation
 
 Automated tests cover anonymous identifiers, session renewal, privacy signals, unknown field rejection, exclusion of URLs and free form content, the anonymous PostHog payload, ingestion host allowlisting, and the unconfigured route behavior.
 
-These tests use a simulated transport and create no production metrics. Definitive validation requires the public deployment, real events from the published flow, and receipt confirmation in the private dashboard.
+On September 2, 2026, the published route recognized the production configuration, rejected an invalid envelope with a stable error, and the dashboard received real `page_view` events. No synthetic event was created to populate metrics. Counts remain private until a representative period exists.
 
 ## Official references
 

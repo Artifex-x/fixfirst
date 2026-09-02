@@ -85,4 +85,4 @@ O scanner retorna códigos estáveis como `BLOCKED_TARGET`, `DNS_FAILED`, `SCAN_
 
 ## Fronteiras de deployment
 
-A prévia privada usa vinext. O build padrão do Next.js é validado separadamente para a Vercel. A integração com PostHog está presente no código, mas permanece inativa sem configuração no runtime. Mudanças nas contas do GitHub, Vercel e PostHog seguem etapas separadas de autorização do proprietário.
+A prévia privada usa vinext e permanece sem envio externo de analytics. A produção pública na Vercel usa o build padrão do Next.js e encaminha eventos anônimos ao PostHog quando a configuração válida existe somente no servidor. Mudanças nas contas do GitHub, Vercel e PostHog seguem etapas separadas de autorização do proprietário.

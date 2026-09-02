@@ -1,18 +1,18 @@
 # Plano de deployment
 
-Status: prévia privada
+Status: produção pública na Vercel
 
 Última revisão: 2 de setembro de 2026
 
 ## Estado atual
 
-O projeto possui uma prévia privada baseada em vinext. A aplicação e a instrumentação de analytics foram validadas localmente, mas ainda não foram publicadas no GitHub, na Vercel ou em uma URL pública.
+O código está publicado no GitHub e a aplicação está disponível em [fixfirst-inky.vercel.app](https://fixfirst-inky.vercel.app). A prévia privada baseada em vinext continua separada. O deployment público usa Next.js no runtime Node.js da Vercel e encaminha eventos anônimos para um dashboard privado do PostHog.
 
-## Destino Next.js padrão
+## Deployment Next.js atual
 
-O deployment futuro na Vercel deve usar o repositório oficial do GitHub somente depois da preparação para publicação.
+O projeto da Vercel está conectado ao repositório oficial do GitHub. O status de deployment associado ao commit público foi confirmado como bem sucedido.
 
-| Configuração | Valor planejado |
+| Configuração | Valor atual |
 | --- | --- |
 | Framework | Next.js |
 | Node.js | 24.x |
@@ -26,33 +26,34 @@ O deployment futuro na Vercel deve usar o repositório oficial do GitHub somente
 
 `FIXFIRST_RUNTIME` deve permanecer sem valor na Vercel para que o scanner use o transporte Node com socket fixado. A prévia Cloudflare define `cloudflare` como seletor não secreto e a aplicação também detecta o runtime Workers. O wrapper do build Next.js desativa a telemetria do framework sem exigir credencial do usuário.
 
-## Por que a autenticação da Vercel será necessária
+## Autenticação utilizada
 
-Importar o repositório, definir produção, consultar logs, configurar rate limiting no nível da plataforma, adicionar variáveis de analytics e alterar acesso são ações na conta do proprietário. Elas exigem login ou OAuth oficial da Vercel. Nenhuma senha, token ou API key deve ser solicitada pela conversa.
+A importação do repositório e a configuração das variáveis foram realizadas na conta proprietária por meio do fluxo oficial da Vercel e do GitHub. Nenhuma senha, token ou API key pessoal foi solicitada pela conversa. Os valores reais das variáveis permanecem fora do repositório e da documentação.
 
 ## Gate do scanner público
 
-O limiter por instância não é suficiente como único controle para um scanner na internet. Antes de abrir produção, é necessário escolher uma opção gratuita e adequada de firewall ou rate limiting na Vercel, ou aprovar um limiter externo durável. A decisão precisa considerar limites, custo, retenção, tratamento de IP e comportamento entre deployments.
+O scanner aplica seis requisições em dez minutos por chave hash em cada instância, além de limite de payload, prazo total e limites de resposta. A Vercel fornece [mitigação automática de DDoS](https://vercel.com/docs/vercel-firewall/ddos-mitigation) em todos os planos. O plano Hobby também permite regras WAF gratuitas, mas o [WAF Rate Limiting](https://vercel.com/docs/vercel-firewall/vercel-waf/rate-limiting) é um recurso cobrado por uso. Nenhum rate limiting pago foi ativado.
 
-O código de analytics está presente, mas inativo sem `POSTHOG_PROJECT_TOKEN` e `POSTHOG_HOST`. O projeto e o dashboard privado do PostHog exigem autorização oficial separada. Publicar o scanner não autoriza outro produto de analytics nem plano pago.
+A decisão atual mantém a produção no plano Hobby gratuito com proteção DDoS da plataforma e limite local da aplicação. Um atacante distribuído ainda pode contornar o limite por instância. Se surgir abuso ou consumo anormal, a resposta segura é suspender o deployment ou fazer rollback antes de considerar um serviço distribuído, plano pago ou nova integração.
 
-## Verificação depois do deployment
+O analytics de produção está ativo com `POSTHOG_PROJECT_TOKEN` e `POSTHOG_HOST` somente no servidor. O dashboard do PostHog é privado, o descarte de IP está ligado e nenhum plano pago foi habilitado.
 
-Após um deployment aprovado, verificar em uma sessão privada ou sem login:
+## Verificação executada em produção
 
-1. A página inicial abre sem GitHub, ChatGPT, Vercel, convite ou senha.
-2. HTTPS está válido e direciona para a URL canônica.
-3. Os headers de segurança aparecem nas páginas e APIs.
-4. Um site público controlado conclui o scan.
-5. Localhost, IPv4 privado, loopback IPv6, protocolos inválidos, portas alternativas e redirects privados continuam bloqueados.
-6. Um alvo lento recebe timeout e uma resposta grande permanece limitada.
-7. O Retest faz nova requisição e pode retornar corrigido, pendente ou inconclusivo.
-8. PT-BR, inglês, espanhol, mobile, desktop, relatório para impressão e histórico local funcionam.
-9. Nenhuma query string, secret, resposta bruta ou stack trace aparece em logs ou analytics.
-10. Eventos reais chegam ao dashboard privado com propriedades permitidas.
-11. A URL pública funciona fora da sessão do proprietário.
+Em 2 de setembro de 2026, a validação direta por HTTPS confirmou:
 
-Somente depois dessas verificações a URL real deve entrar no README, no campo Website do GitHub e na apresentação do projeto.
+1. A página inicial respondeu `200` sem login ou convite.
+2. HTTPS, HSTS, CSP, proteção contra frames, `nosniff`, Referrer-Policy e Permissions-Policy estavam presentes.
+3. Uma autoanálise autorizada do próprio FixFirst respondeu `200`, usou o transporte Node com socket fixado e observou TLS 1.3 válido.
+4. Uma requisição sem autorização respondeu `403 AUTHORIZATION_REQUIRED`.
+5. Um destino loopback respondeu `400 BLOCKED_TARGET`.
+6. Uma origem externa respondeu `403 CROSS_ORIGIN_REQUEST`.
+7. `GET /api/scan` respondeu `405`.
+8. A rota de analytics reconheceu a configuração e rejeitou um envelope inválido com `400 UNSUPPORTED_EVENT`.
+9. Eventos reais de `page_view` chegaram ao dashboard privado. Nenhum evento sintético foi enviado.
+10. O commit público recebeu status `Vercel: success` no GitHub.
+
+Testes de interação visual, mobile, impressão e Retest não foram automatizados nesta etapa. Eles permanecem cobertos pela suíte e podem receber uma validação manual separada sem alterar a evidência acima.
 
 ## Rollback
 

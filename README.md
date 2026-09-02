@@ -29,11 +29,13 @@ O fluxo implementado funciona assim:
 
 ## Live Demo
 
-A demonstração pública ainda não foi lançada. A URL real será adicionada somente depois que o deployment na Vercel for testado sem uma sessão autenticada. O ambiente atual de desenvolvimento permanece privado.
+[Abrir o FixFirst](https://fixfirst-inky.vercel.app)
+
+O deployment público utiliza HTTPS e abre sem login. Em 2 de setembro de 2026, a página, os headers, as políticas das APIs e uma autoanálise autorizada foram verificados diretamente na produção da Vercel.
 
 ## Screenshots
 
-Os screenshots serão capturados a partir do deployment público final. Nenhuma imagem provisória é apresentada como resultado de produção.
+O repositório ainda não apresenta screenshots. A interface real pode ser testada pela Live Demo, sem substituir o produto por imagens provisórias.
 
 ## Funcionalidades atuais
 
@@ -102,11 +104,11 @@ O GitHub Actions está preparado para executar as mesmas verificações com toke
 | Testes | Test runner do Node.js e fixtures TCP locais |
 | Qualidade | ESLint, npm audit, GitHub Actions, Dependabot e CodeQL |
 
-Não existe banco de dados, sistema de contas de usuário, armazenamento externo, SDK de analytics no navegador ou secret administrativo obrigatório. O envio ao PostHog permanece desativado até a configuração das variáveis de ambiente no servidor.
+Não existe banco de dados, sistema de contas de usuário, armazenamento externo, SDK de analytics no navegador ou secret administrativo obrigatório. O PostHog de produção está configurado somente no servidor, e os valores reais das variáveis não aparecem no código, no navegador ou na documentação.
 
 ## Métricas de uso
 
-O fluxo do produto está instrumentado com eventos explícitos do PostHog e listas fechadas de propriedades. A prévia privada não possui configuração do PostHog, portanto o projeto ainda não declara números de visitantes, scans, conversão, Playbooks, Retests ou correções confirmadas. O modelo de eventos, funil, regras de minimização e estado da validação estão documentados em [Analytics](docs/ANALYTICS.md).
+O fluxo do produto está instrumentado com eventos explícitos do PostHog e listas fechadas de propriedades. A produção encaminha eventos anônimos para um dashboard privado com descarte de IP ativo. A validação inicial confirmou o recebimento de visitas reais, mas o projeto não publica contagens até existir um período representativo. O modelo de eventos, funil e regras de minimização estão documentados em [Analytics](docs/ANALYTICS.md).
 
 ## Limitações
 
@@ -116,14 +118,14 @@ O fluxo do produto está instrumentado com eventos explícitos do PostHog e list
 4. A detecção de tecnologia utiliza sinais públicos limitados e pode ser incompleta. Ela não é usada como prova de vulnerabilidade.
 5. Os checks de cookies cobrem apenas cookies presentes na resposta e param depois de 20 valores.
 6. O indicador passivo está limitado aos checks disponíveis. Ele não representa uma porcentagem da segurança total.
-7. O rate limiter em memória funciona por processo ou instância serverless. O deployment público ainda precisa de uma decisão sobre controle de abuso no nível da plataforma.
+7. O rate limiter em memória funciona por processo ou instância serverless. A Vercel fornece mitigação automática de DDoS, mas nenhum rate limiting distribuído cobrado foi ativado. Tráfego distribuído ainda pode contornar o limite local.
 8. O transporte fetch da Cloudflare valida o DNS antes de cada etapa, mas não consegue fixar essa resposta à requisição da plataforma. O isolamento de rede do provedor faz parte do controle.
 9. O analytics pode subcontar pessoas que usam sinais de privacidade, bloqueadores de conteúdo ou limpam o armazenamento do navegador.
 10. O FixFirst não substitui revisão segura de código, testes autenticados, revisão de infraestrutura ou pentest profissional.
 
 ## Roadmap
 
-Os próximos gates de release são rate limiting no nível da plataforma para o scanner público, repositório público no GitHub, deployment sem autenticação na Vercel, ativação da conta PostHog e validação dos eventos em produção. Rastreamento de várias páginas e novos findings permanecem fora do escopo até que os checks atuais tenham validação suficiente no uso real.
+O repositório público, o deployment sem login na Vercel e o dashboard privado do PostHog estão ativos. Os próximos passos são observar o uso real, avaliar um limite distribuído que não introduza cobrança sem aprovação, validar mais ciclos de Retest e capturar screenshots da versão pública. Rastreamento de várias páginas e novos findings permanecem fora do escopo até que os checks atuais tenham validação suficiente.
 
 ## O que aprendi
 

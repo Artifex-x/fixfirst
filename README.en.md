@@ -29,11 +29,13 @@ The implemented flow is:
 
 ## Live Demo
 
-The public demo has not been released. The real URL will be added only after the Vercel deployment is tested without an authenticated session. The current development environment remains private.
+[Open FixFirst](https://fixfirst-inky.vercel.app)
+
+The public deployment uses HTTPS and opens without a login. On September 2, 2026, the page, response headers, API policies, and an authorized self-scan were verified directly in Vercel production.
 
 ## Screenshots
 
-Screenshots will be captured from the final public deployment. No placeholder image is presented as production output.
+The repository does not include screenshots yet. The real interface is available through the Live Demo instead of being represented by placeholder images.
 
 ## Current capabilities
 
@@ -102,11 +104,11 @@ GitHub Actions is prepared to run the same checks with a read-only token. A sepa
 | Tests | Node.js test runner and local TCP fixtures |
 | Quality | ESLint, npm audit, GitHub Actions, Dependabot, and CodeQL configuration |
 
-There is no database, user account system, external storage, browser analytics SDK, or required administrative secret. PostHog delivery remains disabled until its server environment variables are configured.
+There is no database, user account system, external storage, browser analytics SDK, or required administrative secret. Production PostHog delivery is configured server-side only, and real variable values are absent from source, browser code, and documentation.
 
 ## Usage metrics
 
-The product flow is instrumented with explicit, allowlisted PostHog events. The private preview has no PostHog configuration, so this project does not yet claim visitor, scan, conversion, Playbook, Retest, or confirmed-fix counts. The event model, funnel, data minimization rules, and validation status are documented in [Analytics](docs/ANALYTICS.en.md).
+The product flow is instrumented with explicit, allowlisted PostHog events. Production forwards anonymous events to a private dashboard with IP discard enabled. Initial validation confirmed real page visits, but the project does not publish counts until a representative measurement period exists. The event model, funnel, and data minimization rules are documented in [Analytics](docs/ANALYTICS.en.md).
 
 ## Limitations
 
@@ -116,14 +118,14 @@ The product flow is instrumented with explicit, allowlisted PostHog events. The 
 4. Technology detection is limited to public signals and can be incomplete. It is not used as proof of a vulnerability.
 5. Cookie checks cover only cookies visible in the response and stop after 20 values.
 6. The passive indicator is scoped to supported checks. It is not a percentage of total security.
-7. The in-memory rate limiter is per process or serverless instance. A public deployment still needs a platform-level abuse control decision.
+7. The in-memory rate limiter is per process or serverless instance. Vercel provides automatic DDoS mitigation, but no billed distributed rate limiting is enabled. Distributed traffic can still bypass the local limit.
 8. The Cloudflare fetch transport validates DNS before each hop but cannot pin that answer to the platform request. Provider network isolation is therefore part of the control.
 9. Analytics can undercount people using privacy signals, content blockers, or cleared browser storage.
 10. FixFirst does not replace secure code review, authenticated testing, infrastructure review, or a professional penetration test.
 
 ## Roadmap
 
-The next release gates are platform-level rate limiting for the public scanner, the public GitHub repository, an unauthenticated Vercel deployment, PostHog account activation, and production event validation. Broader crawling and additional findings are intentionally out of scope until the current checks have enough real-world validation.
+The public repository, unauthenticated Vercel deployment, and private PostHog dashboard are active. Next steps are observing real usage, evaluating a distributed limit that introduces no charge without approval, validating more Retest cycles, and capturing screenshots of the public version. Broader crawling and additional findings remain out of scope until the current checks have enough validation.
 
 ## What I learned
 

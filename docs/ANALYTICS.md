@@ -1,6 +1,6 @@
 # Analytics do FixFirst
 
-Status: instrumentação implementada, ativação da conta e validação em produção pendentes
+Status: produção ativa e validação inicial concluída
 
 Última revisão: 2 de setembro de 2026
 
@@ -37,7 +37,7 @@ A integração utiliza duas variáveis de ambiente no servidor:
 
 O código aceita somente os hosts oficiais `https://us.i.posthog.com` e `https://eu.i.posthog.com`. Os valores reais não pertencem ao GitHub, ao README ou aos logs.
 
-Sem uma configuração válida, a rota responde sem enviar dados para um serviço externo. Esse é o comportamento da prévia privada atual.
+Sem uma configuração válida, a rota responde sem enviar dados para um serviço externo. A produção da Vercel possui a configuração válida; a prévia privada permanece sem envio externo.
 
 ## Identidade anônima e sessões
 
@@ -94,20 +94,16 @@ O ramo de erro utiliza `scan_failed`. Ele não deve ser tratado como conclusão 
 
 ## Dashboard privado
 
-Depois que a conta for conectada pelo OAuth oficial e o projeto correto for confirmado, o dashboard privado deve conter:
+O dashboard privado foi criado no projeto PostHog confirmado e contém seis insights validados:
 
-1. Visitas e visitantes únicos por dia.
-2. Sessões e visitantes que retornaram.
-3. Utilização real, medida por `scan_started`.
-4. Análises iniciadas, concluídas e com falha.
-5. Taxa de conclusão.
-6. Resultados, prioridades, guias e Playbooks visualizados.
-7. Mensagens para desenvolvedor e relatórios gerados.
-8. Retests iniciados, concluídos e correções confirmadas.
-9. Funil principal com abandono por etapa.
-10. Distribuição de idioma e categoria de dispositivo.
+1. Visitas nos últimos 30 dias.
+2. Análises iniciadas, concluídas e com falha.
+3. Aberturas do guia simples e do Playbook técnico.
+4. Retests iniciados, concluídos e correções confirmadas.
+5. Funil entre análise iniciada e concluída, com abandono por etapa.
+6. Jornada entre visita, análise concluída, Playbook, Retest e correção confirmada.
 
-O dashboard não aparece no FixFirst e não deve ser compartilhado pelo README. O acesso administrativo permanece restrito à conta proprietária do projeto PostHog.
+O dashboard não aparece no FixFirst, não possui compartilhamento público e usa acesso restrito. O acesso administrativo permanece na conta proprietária do projeto PostHog.
 
 ## Dados deliberadamente não coletados
 
@@ -133,7 +129,7 @@ A requisição do navegador usa `credentials: omit` e `referrerPolicy: no-referr
 6. O host de ingestão usa allowlist para evitar destinos arbitrários.
 7. O project token não é enviado ao navegador pelo FixFirst.
 
-Na conta PostHog, a opção **Discard client IP data** também deve ser ativada em **Settings**, **Project**, **IP data capture configuration**. A [documentação de armazenamento de dados](https://posthog.com/docs/privacy/data-storage) explica esse controle. Mesmo que a integração encaminhe apenas o IP de saída do servidor, e não o IP do visitante, o descarte deve permanecer ligado.
+Na conta PostHog, a opção **Discard client IP data** está ativada em **Settings**, **Project**, **IP data capture configuration**. A [documentação de armazenamento de dados](https://posthog.com/docs/privacy/data-storage) explica esse controle. Mesmo que a integração encaminhe apenas o IP de saída do servidor, e não o IP do visitante, o descarte deve permanecer ligado.
 
 ## Métricas derivadas
 
@@ -149,13 +145,13 @@ As métricas públicas futuras devem usar somente dados reais, indicar o interva
 4. Bloqueadores de conteúdo ou falhas de rede podem impedir a entrega de eventos.
 5. O limite local da rota é por instância e não substitui um controle distribuído da plataforma.
 6. A classificação de dispositivo é ampla e não identifica modelo ou sistema operacional.
-7. A política de retenção e exclusão deve ser confirmada na conta proprietária antes da ativação pública.
+7. Retenção e exclusão continuam sendo controles administrativos da conta proprietária e precisam de revisão periódica.
 
 ## Validação
 
 Os testes automatizados verificam criação de identificadores anônimos, renovação de sessão, respeito a sinais de privacidade, rejeição de campos desconhecidos, ausência de URL e texto livre, payload anônimo do PostHog, allowlist de host e comportamento da rota sem configuração.
 
-Esses testes usam transporte simulado e não geram métricas de produção. A validação definitiva exige o deployment público, eventos reais produzidos pelo fluxo publicado e confirmação de recebimento no dashboard privado.
+Em 2 de setembro de 2026, a rota publicada reconheceu a configuração de produção, rejeitou um envelope inválido com erro estável e o dashboard recebeu eventos reais de `page_view`. Nenhum evento sintético foi criado para preencher métricas. As contagens continuam privadas até existir um período representativo.
 
 ## Referências oficiais
 

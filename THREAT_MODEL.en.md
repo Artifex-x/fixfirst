@@ -40,19 +40,19 @@ The first trust boundary is between the browser and the APIs. The second is betw
 | Denial of service | Slow targets, redirect loops, large headers, or large bodies consume resources | One 12-second deadline, three redirects, 64 KiB header limit, 512 KiB HTML limit, 8 KiB request limit, socket cleanup | A distributed attacker can bypass the per-instance rate limiter |
 | Denial of service | Many clients fill a rate-limit map | Maps are capped at 10,000 and expired entries are pruned | Limits reset when an instance restarts and are not shared across instances |
 | Tampering | Fabricated analytics events distort metrics or consume quota | Same-origin checks, 4 KiB limit, closed event schema, fixed PostHog hosts, and a separate local rate limit | Automated distributed traffic can still generate valid-looking events |
-| Elevation of privilege | A malicious pull request obtains write access or deployment secrets | CI has read-only contents permission, no deployment secrets, no `pull_request_target`, and immutable action SHAs | Repository rules and account-level settings must still be enabled after publication |
+| Elevation of privilege | A malicious pull request obtains write access or deployment secrets | CI has read-only contents permission, no deployment secrets, no `pull_request_target`, immutable action SHAs, and an active ruleset | A compromised administrative bypass can still circumvent the normal review flow |
 | Tampering | A vulnerable dependency changes scanner behavior | Locked dependencies, npm audit, Dependabot configuration, CodeQL, and CI builds | Advisory coverage is incomplete and updates still require review |
-| Information disclosure | A secret is committed or exposed to the client | No required administrative secret, `.env` and key patterns ignored, public history review gate | GitHub secret scanning and push protection require repository settings after publication |
+| Information disclosure | A secret is committed or exposed to the client | No required administrative secret, ignored `.env` and key patterns, sanitized public history, secret scanning, and push protection | Automated detection cannot cover every possible secret format |
 | Tampering | A contextual result is presented as confirmed | Confidence is evidence based; wildcard CORS requires manual review; Retest can be inconclusive | Passive evidence cannot establish business context by itself |
 
 ## Residual risks requiring a deployment decision
 
-1. Public release needs a distributed or platform-level abuse control. The current scanner limiter is useful within one instance but is not a durable global quota.
+1. Production combines a per-instance limit with Vercel automatic DDoS mitigation. Because no billed distributed rate limiting was authorized, a distributed attacker can still bypass the local quota.
 2. Cloudflare native fetch depends on platform egress isolation because the validated DNS answer cannot be bound to the connection.
 3. The scanner intentionally accepts an invalid TLS connection in pinned transport so it can observe and report the certificate failure. Such a result must not be treated as trusted content.
 4. An authorization checkbox cannot prove ownership. Strong verification would require DNS, file, or account-based challenges and is outside this MVP.
 5. Passive checks cover one response. Route-specific behavior and authenticated content remain unknown.
-6. Anonymous analytics depends on a third-party event store. Retention, IP discard, billing limits, dashboard access, and data deletion must be confirmed in the owner account before production activation.
+6. Anonymous analytics depends on a third-party event store. The dashboard is private and IP discard is enabled, while retention, deletion, and administrative access still depend on the owner account.
 7. Privacy signals and content blockers intentionally create analytics undercounting.
 
-These risks are documented release gates, not hidden assumptions.
+These are documented residual risks, not hidden assumptions.
