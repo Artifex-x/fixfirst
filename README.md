@@ -33,21 +33,33 @@ O fluxo implementado funciona assim:
 
 O deployment público utiliza HTTPS e abre sem login. Em 2 de setembro de 2026, a página, os headers, as políticas das APIs e uma autoanálise autorizada foram verificados diretamente na produção da Vercel.
 
-## Screenshots
+## Como funciona
 
-Capturas reais da versão pública. A análise mostrada usa o próprio domínio do FixFirst como alvo autorizado, portanto o resultado pode mudar conforme o deployment evolui.
+Estas são capturas reais da versão pública. A análise usa o próprio domínio do FixFirst como alvo autorizado, portanto o resultado pode mudar conforme o deployment evolui.
 
-### Tela inicial
+### 1. Informe o site
+
+Digite um endereço público para o qual você tenha autorização. O FixFirst faz uma análise passiva, sem login ou alteração do site.
 
 ![Tela inicial do FixFirst com o campo para informar o endereço do site](docs/images/fixfirst-home.jpg)
 
-### Resumo da análise
+### 2. Confira o panorama
+
+O resumo apresenta o indicador limitado aos checks suportados e quantos pontos merecem revisão.
 
 ![Resumo de uma análise autorizada do próprio FixFirst](docs/images/fixfirst-result.jpg)
 
-### Prioridade de correção
+### 3. Entenda a prioridade
 
-![Explicação do ponto priorizado pelo FixFirst](docs/images/fixfirst-priority.jpg)
+A análise simples traduz o primeiro ponto em impacto, contexto e responsável sugerido.
+
+![Explicação simples do ponto priorizado pelo FixFirst](docs/images/fixfirst-priority.jpg)
+
+### 4. Consulte a evidência técnica
+
+A expansão técnica mostra status, confiança, evidência, CWE e CVSS, tecnologia identificada e composição da prioridade.
+
+![Evidências técnicas do ponto priorizado pelo FixFirst](docs/images/fixfirst-technical.jpg)
 
 ## Funcionalidades atuais
 

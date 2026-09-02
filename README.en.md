@@ -33,21 +33,33 @@ The implemented flow is:
 
 The public deployment uses HTTPS and opens without a login. On September 2, 2026, the page, response headers, API policies, and an authorized self-scan were verified directly in Vercel production.
 
-## Screenshots
+## How it works
 
-These are real captures from the public version. The displayed scan uses FixFirst's own domain as an authorized target, so the result may change as the deployment evolves. The screenshots use the default PT-BR interface; English and Spanish are available from the language selector.
+These are real captures from the public version. The scan uses FixFirst's own domain as an authorized target, so the result may change as the deployment evolves. The interface shown below is in PT-BR; English and Spanish are available from the language selector.
 
-### Start screen
+### 1. Enter the website
+
+Enter a public address that you are authorized to assess. FixFirst runs a passive check without login or changes to the website.
 
 ![FixFirst start screen with the website address field](docs/images/fixfirst-home.jpg)
 
-### Scan summary
+### 2. Review the overview
+
+The summary shows the indicator limited to supported checks and the number of items that deserve review.
 
 ![Summary of an authorized scan of FixFirst itself](docs/images/fixfirst-result.jpg)
 
-### Remediation priority
+### 3. Understand the priority
 
-![Explanation of the finding prioritized by FixFirst](docs/images/fixfirst-priority.jpg)
+The simple analysis translates the first item into impact, context, and a suggested owner.
+
+![Plain-language explanation of the item prioritized by FixFirst](docs/images/fixfirst-priority.jpg)
+
+### 4. Inspect the technical evidence
+
+The expanded view shows status, confidence, evidence, CWE and CVSS, detected technology, and the priority composition.
+
+![Technical evidence for the item prioritized by FixFirst](docs/images/fixfirst-technical.jpg)
 
 ## Current capabilities
 
