@@ -35,24 +35,25 @@ A confiança é determinada pela fonte da evidência e permanece separada da sev
 
 O Retest usa o mesmo código de finding em um novo scan completo. Somente `pass` confirma a correção. Qualquer estado parcial ou sem evidência suficiente permanece inconclusivo.
 
-## Controles do repositório preparados localmente
+## Controles do repositório público
 
-| Controle | Estado preparado | Etapa externa necessária |
+| Controle | Estado atual | Validação |
 | --- | --- | --- |
-| CI | Lint, testes, npm audit, build vinext e build Next.js | Criar o repositório e confirmar a primeira execução |
-| Cadeia de fornecimento das Actions | Actions oficiais fixadas por SHAs completos | Revisar Pull Requests do Dependabot para Actions |
-| Permissões do token | CI com conteúdo somente leitura; CodeQL acrescenta apenas leitura de packages e escrita de eventos de segurança | Confirmar permissões padrão dos workflows |
-| Atualizações de dependências | Dependabot semanal para npm e GitHub Actions | Ativar dependency graph e security updates |
-| Code scanning | Workflow CodeQL para JavaScript com consultas security-and-quality | Confirmar o primeiro upload |
-| Proteção da main | Ruleset proporcional documentado | Criar o ruleset nas configurações do GitHub |
-| Proteção de secrets | Revisão de arquivos, histórico relevante e regras de ignore preparadas | Ativar secret scanning e push protection quando disponíveis |
+| CI | Lint, testes, npm audit, build vinext e build Next.js | Workflow público concluído com sucesso |
+| Cadeia de fornecimento das Actions | Actions oficiais fixadas por SHAs completos | Dependabot semanal acompanha npm e GitHub Actions |
+| Permissões do token | CI com conteúdo somente leitura; CodeQL acrescenta apenas leitura de packages e escrita de eventos de segurança | Permissões padrão restritas confirmadas pelo proprietário |
+| Atualizações de dependências | Dependency graph, Dependabot alerts e security updates ativos | Configuração confirmada pelo proprietário |
+| Code scanning | CodeQL para JavaScript com consultas security-and-quality | Primeira análise pública concluída com sucesso |
+| Proteção da main | Ruleset ativo bloqueia exclusão e force push, exige PR, uma aprovação, resolução de conversas e dois checks | Ruleset `Protect main` verificado pela API do GitHub |
+| Proteção de secrets | Árvore pública sanitizada, secret scanning e push protection ativos | Configuração confirmada pelo proprietário |
+| Reporte privado | Private Vulnerability Reporting ativo | Processo público documentado em `SECURITY.md` |
 
-## Controles residuais antes do scanner público
+## Controles residuais no deployment público
 
-O rate limiter do scanner não é compartilhado entre instâncias serverless. A publicação precisa de um limite distribuído ou no nível da plataforma para `/api/scan`. O limite local separado do analytics também não impede todo spam distribuído de métricas.
+O rate limiter do scanner não é compartilhado entre instâncias serverless. A produção combina o limite local com a mitigação automática de DDoS da Vercel, sem ativar o WAF Rate Limiting cobrado. Tráfego distribuído ainda pode contornar o limite local. O limite separado do analytics também não impede todo spam distribuído de métricas.
 
 A CSP permite scripts e estilos inline para compatibilidade com a saída atual de Next.js e vinext. `object-src`, frames, URLs base, formulários e conexões do navegador continuam restritos. Remover as permissões inline exige uma estratégia testada de nonce ou hash e permanece como hardening documentado.
 
-O fetch nativo da Cloudflare não consegue ligar a resposta de DNS validada à requisição. A prévia privada depende parcialmente do isolamento de rede da plataforma. Um deployment Node.js padrão utiliza socket fixado e precisa ser testado nesse ambiente antes da release.
+O fetch nativo da Cloudflare não consegue ligar a resposta de DNS validada à requisição. A prévia privada depende parcialmente do isolamento de rede da plataforma. A produção Node.js da Vercel foi validada com o transporte de socket fixado e metadados TLS disponíveis.
 
-O analytics de produção também exige que o proprietário confirme descarte de IP, retenção, exclusão, acesso ao dashboard e limite zero de cobrança no PostHog antes de ativar eventos.
+O analytics de produção está ativo em um dashboard privado com descarte de IP. Retenção, exclusão e acesso administrativo permanecem responsabilidades contínuas da conta proprietária.

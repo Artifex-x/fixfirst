@@ -40,19 +40,19 @@ A primeira fronteira de confiança fica entre o navegador e as APIs. A segunda s
 | Denial of service | Alvos lentos, loops de redirect, headers ou corpos grandes consomem recursos | Prazo total de 12 segundos, três redirects, 64 KiB de headers, 512 KiB de HTML, 8 KiB por requisição e limpeza de sockets | Um atacante distribuído pode contornar o rate limiter por instância |
 | Denial of service | Muitos clientes preenchem o mapa do rate limiter | Mapas limitados a 10.000 entradas com remoção das expiradas | Limites reiniciam com a instância e não são compartilhados |
 | Tampering | Eventos falsos distorcem métricas ou consomem a cota de analytics | Verificação de mesma origem, limite de 4 KiB, schema fechado, hosts fixos do PostHog e rate limiter local separado | Tráfego automatizado distribuído ainda pode produzir eventos aparentemente válidos |
-| Elevation of privilege | Pull Request malicioso obtém acesso de escrita ou secrets de deployment | CI com permissão somente de leitura, sem credenciais de deployment, sem `pull_request_target` e com SHAs imutáveis das Actions | Rulesets e configurações da conta ainda precisam ser ativados após a publicação |
+| Elevation of privilege | Pull Request malicioso obtém acesso de escrita ou secrets de deployment | CI com permissão somente de leitura, sem credenciais de deployment, sem `pull_request_target`, SHAs imutáveis das Actions e ruleset ativo | Um bypass administrativo comprometido ainda pode contornar o fluxo normal de revisão |
 | Tampering | Dependência vulnerável altera o comportamento do scanner | Dependências travadas, npm audit, Dependabot, CodeQL e builds no CI | Cobertura de advisories é incompleta e atualizações ainda exigem revisão |
-| Information disclosure | Secret é commitado ou exposto ao cliente | Nenhum secret administrativo obrigatório, padrões de `.env` e chaves ignorados e gate de revisão do histórico público | Secret scanning e push protection dependem da configuração do repositório |
+| Information disclosure | Secret é commitado ou exposto ao cliente | Nenhum secret administrativo obrigatório, padrões de `.env` e chaves ignorados, histórico público sanitizado, secret scanning e push protection ativos | Detecção automática não cobre todo formato possível de segredo |
 | Tampering | Resultado contextual é apresentado como confirmado | Confiança baseada em evidência, CORS curinga exige revisão humana e Retest pode ser inconclusivo | Evidência passiva não determina sozinha o contexto de negócio |
 
 ## Riscos residuais que exigem decisão de deployment
 
-1. A publicação precisa de controle de abuso distribuído ou no nível da plataforma. O limiter atual do scanner é útil em uma instância, mas não representa uma cota global durável.
+1. A produção combina limite por instância e mitigação automática de DDoS da Vercel. Como nenhum rate limiting distribuído cobrado foi autorizado, um atacante distribuído ainda pode contornar a cota local.
 2. O fetch nativo da Cloudflare depende do isolamento de saída da plataforma, pois a resposta de DNS validada não pode ser ligada à conexão.
 3. O scanner aceita intencionalmente uma conexão TLS inválida no transporte fixado para observar e relatar a falha do certificado. Esse resultado não deve ser tratado como conteúdo confiável.
 4. Uma checkbox de autorização não prova propriedade. Uma verificação forte exigiria desafios por DNS, arquivo ou conta e está fora deste MVP.
 5. Os checks passivos cobrem uma resposta. Comportamentos específicos de rota e conteúdo autenticado permanecem desconhecidos.
-6. O analytics anônimo depende de um armazenamento de eventos de terceiros. Retenção, descarte de IP, limite de cobrança, acesso ao dashboard e exclusão de dados precisam ser confirmados na conta proprietária antes da ativação em produção.
+6. O analytics anônimo depende de um armazenamento de eventos de terceiros. O dashboard é privado e o descarte de IP está ativo, mas retenção, exclusão e acesso administrativo ainda dependem da conta proprietária.
 7. Sinais de privacidade e bloqueadores de conteúdo criam subcontagem intencional.
 
-Esses riscos são gates documentados de release, e não premissas ocultas.
+Esses são riscos residuais documentados, e não premissas ocultas.

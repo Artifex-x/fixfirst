@@ -35,24 +35,25 @@ Confidence is determined by evidence source. It is separate from potential sever
 
 Retest uses the same finding code in a new complete scan. Only `pass` confirms the correction. Every other unavailable or partial state remains inconclusive.
 
-## Repository controls prepared locally
+## Public repository controls
 
-| Control | Prepared state | External step still required |
+| Control | Current state | Validation |
 | --- | --- | --- |
-| CI | Lint, tests, npm audit, vinext build, and Next.js build | Create the repository and confirm the first run |
-| Action supply chain | Official Actions pinned to full commit SHAs | Review Dependabot Action update pull requests |
-| Token permissions | CI uses read-only contents permission; CodeQL adds packages read and security events write only | Confirm repository default workflow permissions |
-| Dependency updates | Weekly npm and GitHub Actions Dependabot configuration | Enable dependency graph and security updates |
-| Code scanning | JavaScript CodeQL workflow with security-and-quality queries | Confirm first upload succeeds |
-| Main protection | Proportional ruleset documented | Create the ruleset in GitHub settings |
-| Secret protection | File review, relevant history review, and ignore rules prepared | Enable secret scanning and push protection if available |
+| CI | Lint, tests, npm audit, vinext build, and Next.js build | Public workflow completed successfully |
+| Action supply chain | Official Actions pinned to full commit SHAs | Weekly Dependabot covers npm and GitHub Actions |
+| Token permissions | CI uses read-only contents permission; CodeQL adds packages read and security events write only | Restricted default permissions confirmed by the owner |
+| Dependency updates | Dependency graph, Dependabot alerts, and security updates enabled | Configuration confirmed by the owner |
+| Code scanning | JavaScript CodeQL with security-and-quality queries | First public analysis completed successfully |
+| Main protection | Active ruleset blocks deletion and force pushes, requires a PR, one approval, conversation resolution, and two checks | `Protect main` ruleset verified through the GitHub API |
+| Secret protection | Sanitized public tree, secret scanning, and push protection enabled | Configuration confirmed by the owner |
+| Private reporting | Private Vulnerability Reporting enabled | Public process documented in `SECURITY.md` |
 
-## Residual controls before a public scanner
+## Residual controls in the public deployment
 
-The scanner rate limiter is not shared across serverless instances. Public release needs a platform-level or durable distributed limit for `/api/scan`. A separate local analytics limit also cannot prevent all distributed metric spam.
+The scanner rate limiter is not shared across serverless instances. Production combines the local limit with Vercel automatic DDoS mitigation without enabling billed WAF Rate Limiting. Distributed traffic can still bypass the local limit. The separate analytics limit also cannot prevent all distributed metric spam.
 
 The CSP permits inline scripts and styles for compatibility with the current Next.js and vinext output. `object-src`, frames, base URLs, forms, and browser connections remain restricted. Removing inline allowances requires a tested nonce or hash strategy and remains a documented hardening item.
 
-Cloudflare native fetch cannot bind the prevalidated DNS answer to the request. The private preview therefore depends partly on platform network isolation. A standard Node.js deployment uses pinned socket transport and must be tested in that platform before release.
+Cloudflare native fetch cannot bind the prevalidated DNS answer to the request. The private preview therefore depends partly on platform network isolation. Vercel Node.js production was validated with pinned socket transport and available TLS metadata.
 
-Production analytics also requires the owner to confirm PostHog IP discard, retention, deletion, dashboard access, and a zero billing limit before events are enabled.
+Production analytics is active in a private dashboard with IP discard enabled. Retention, deletion, and administrative access remain ongoing responsibilities of the owner account.
