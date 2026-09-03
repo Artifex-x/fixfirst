@@ -35,31 +35,9 @@ O deployment público utiliza HTTPS e abre sem login. Em 2 de setembro de 2026, 
 
 ## Como funciona
 
-Estas são capturas reais da versão pública. A análise usa o próprio domínio do FixFirst como alvo autorizado, portanto o resultado pode mudar conforme o deployment evolui.
+Esta animação é uma demonstração real da versão pública, usando o próprio domínio do FixFirst como alvo autorizado. Ela mostra o fluxo completo: autorização, análise, priorização, evidência técnica, Fix Route, Playbook, Retest, relatório e histórico local.
 
-### 1. Informe o site
-
-Digite um endereço público para o qual você tenha autorização. O FixFirst faz uma análise passiva, sem login ou alteração do site.
-
-![Tela inicial do FixFirst com o campo para informar o endereço do site](docs/images/fixfirst-home.jpg)
-
-### 2. Entenda a prioridade
-
-A análise simples traduz o primeiro ponto em impacto, contexto e responsável sugerido.
-
-![Explicação simples do ponto priorizado pelo FixFirst](docs/images/fixfirst-priority.jpg)
-
-### 3. Consulte a evidência técnica
-
-A expansão técnica mostra status, confiança, evidência, CWE e CVSS, tecnologia identificada e composição da prioridade.
-
-![Evidências técnicas do ponto priorizado pelo FixFirst](docs/images/fixfirst-technical.jpg)
-
-### 4. Siga o Playbook
-
-O Playbook reúne o que verificar antes da alteração, etapas de correção, validação, plano de reversão e referências oficiais.
-
-![Playbook técnico em português com etapas de correção e validação](docs/images/fixfirst-playbook.jpg)
+![Demonstração completa do FixFirst analisando um site, priorizando findings, mostrando evidências, Playbook, Retest e relatórios](docs/images/fixfirst-readme-demo.gif)
 
 ## Funcionalidades atuais
 
