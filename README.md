@@ -43,23 +43,23 @@ Digite um endereço público para o qual você tenha autorização. O FixFirst f
 
 ![Tela inicial do FixFirst com o campo para informar o endereço do site](docs/images/fixfirst-home.jpg)
 
-### 2. Confira o panorama
-
-O resumo apresenta o indicador limitado aos checks suportados e quantos pontos merecem revisão.
-
-![Resumo de uma análise autorizada do próprio FixFirst](docs/images/fixfirst-result.jpg)
-
-### 3. Entenda a prioridade
+### 2. Entenda a prioridade
 
 A análise simples traduz o primeiro ponto em impacto, contexto e responsável sugerido.
 
 ![Explicação simples do ponto priorizado pelo FixFirst](docs/images/fixfirst-priority.jpg)
 
-### 4. Consulte a evidência técnica
+### 3. Consulte a evidência técnica
 
 A expansão técnica mostra status, confiança, evidência, CWE e CVSS, tecnologia identificada e composição da prioridade.
 
 ![Evidências técnicas do ponto priorizado pelo FixFirst](docs/images/fixfirst-technical.jpg)
+
+### 4. Siga o Playbook
+
+O Playbook reúne o que verificar antes da alteração, etapas de correção, validação, plano de reversão e referências oficiais.
+
+![Playbook técnico em português com etapas de correção e validação](docs/images/fixfirst-playbook.jpg)
 
 ## Funcionalidades atuais
 

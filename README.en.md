@@ -43,23 +43,23 @@ Enter a public address that you are authorized to assess. FixFirst runs a passiv
 
 ![FixFirst start screen with the website address field](docs/images/fixfirst-home-en.jpg)
 
-### 2. Review the overview
-
-The summary shows the indicator limited to supported checks and the number of items that deserve review.
-
-![Summary of an authorized scan of FixFirst itself](docs/images/fixfirst-result-en.jpg)
-
-### 3. Understand the priority
+### 2. Understand the priority
 
 The simple analysis translates the first item into impact, context, and a suggested owner.
 
 ![Plain-language explanation of the item prioritized by FixFirst](docs/images/fixfirst-priority-en.jpg)
 
-### 4. Inspect the technical evidence
+### 3. Inspect the technical evidence
 
 The expanded view shows status, confidence, evidence, CWE and CVSS, detected technology, and the priority composition.
 
 ![Technical evidence for the item prioritized by FixFirst](docs/images/fixfirst-technical-en.jpg)
+
+### 4. Follow the Playbook
+
+The Playbook brings together pre-change checks, remediation steps, validation, a rollback plan, and official references.
+
+![English technical Playbook with remediation and validation steps](docs/images/fixfirst-playbook-en.jpg)
 
 ## Current capabilities
 
